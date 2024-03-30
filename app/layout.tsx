@@ -3,6 +3,10 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 
+import { injectSpeedInsights } from '@vercel/speed-insights/sveltekit';
+injectSpeedInsights();
+
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
