@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
+import { injectSpeedInsights } from "@vercel/speed-insights";
 
-import { injectSpeedInsights } from '@vercel/speed-insights/sveltekit';
 injectSpeedInsights();
 
 
