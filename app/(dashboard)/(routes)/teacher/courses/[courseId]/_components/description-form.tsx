@@ -22,9 +22,7 @@ import { useRouter } from "next/navigation";
 
 
 interface DescriptionFormProps {
-  initialData: {
-    description: string
-  },
+  description: string,
   courseId: string
 }
 
@@ -35,7 +33,7 @@ const formSchema = z.object({
 });
 
 export const DescriptionForm = ({
-  initialData,
+  description,
   courseId
 }: DescriptionFormProps) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -45,7 +43,7 @@ export const DescriptionForm = ({
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: initialData
+    defaultValues: { description }
   });
 
   const { isSubmitting, isValid } = form.formState;
@@ -80,7 +78,7 @@ export const DescriptionForm = ({
         {
           !isEditing ? (
             <p className="text-sm mt-2">
-              {initialData.description}
+              {description}
             </p>
           )
             :
