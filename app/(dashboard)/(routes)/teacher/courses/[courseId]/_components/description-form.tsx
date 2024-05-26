@@ -12,12 +12,12 @@ import {
   FormItem,
 } from "@/components/ui/form";
 
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Pencil } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { Textarea } from "@/components/ui/textarea";
 
 
 
@@ -78,7 +78,7 @@ export const DescriptionForm = ({
         {
           !isEditing ? (
             <p className="text-sm mt-2">
-              {description}
+              {description || 'No description'}
             </p>
           )
             :
@@ -93,12 +93,12 @@ export const DescriptionForm = ({
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Input
+                        <Textarea
                           disabled={isSubmitting}
-                          placeholder="eg: 'Advanced web development'"
+                          placeholder="eg: 'This course is about ...'"
                           {...field}
                         >
-                        </Input>
+                        </Textarea>
                       </FormControl>
                     </FormItem>
                   )}
