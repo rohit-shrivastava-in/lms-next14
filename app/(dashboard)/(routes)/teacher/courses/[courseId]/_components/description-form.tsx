@@ -12,28 +12,29 @@ import {
   FormItem,
 } from "@/components/ui/form";
 
+import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Pencil } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { Textarea } from "@/components/ui/textarea";
+import { Course } from "@prisma/client";
 
 
 
 interface DescriptionFormProps {
-  description: string,
+  initialData: Course,
   courseId: string
 }
 
 const formSchema = z.object({
   description: z.string().min(1, {
-    message: "Description is required"
-  })
+    message: "Title is required"
+  }),
 });
 
 export const DescriptionForm = ({
-  description,
+  initialData,
   courseId
 }: DescriptionFormProps) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -43,7 +44,9 @@ export const DescriptionForm = ({
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: { description }
+    defaultValues: {
+      description: initialData.description || ""
+    }
   });
 
   const { isSubmitting, isValid } = form.formState;
@@ -62,14 +65,14 @@ export const DescriptionForm = ({
   return (
     <div className="mt-6 border bg-slate-100 rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
-        Course description
+        Course title
         <Button onClick={toggleEdit} variant="ghost">
           {
             isEditing ?
               <>Cancel</> :
               <>
                 <Pencil className="h-4 w-4 mr-2" />
-                Edit description
+                Edit title
               </>
           }
         </Button>
@@ -78,7 +81,7 @@ export const DescriptionForm = ({
         {
           !isEditing ? (
             <p className="text-sm mt-2">
-              {description || 'No description'}
+              {!!initialData.description?.trim?.() ? initialData.description : "No description"}
             </p>
           )
             :
@@ -93,12 +96,12 @@ export const DescriptionForm = ({
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Textarea
+                        <Input
                           disabled={isSubmitting}
-                          placeholder="eg: 'This course is about ...'"
+                          placeholder="eg: 'Advanced web development'"
                           {...field}
                         >
-                        </Textarea>
+                        </Input>
                       </FormControl>
                     </FormItem>
                   )}
