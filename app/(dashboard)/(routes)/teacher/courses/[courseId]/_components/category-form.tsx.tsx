@@ -19,25 +19,27 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { Course } from "@prisma/client";
-import { Textarea } from "@/components/ui/textarea";
+import { Combobox } from "@/components/ui/combobox";
 
 
 
-interface DescriptionFormProps {
+interface CategoryFormProps {
   initialData: Course,
   courseId: string
+  options: { label: string, value: string }[]
 }
 
 const formSchema = z.object({
-  description: z.string().min(1, {
-    message: "Title is required"
+  categoryId: z.string().min(1, {
+    message: "Category is required"
   }),
 });
 
-export const DescriptionForm = ({
+export const CategoryForm = ({
   initialData,
-  courseId
-}: DescriptionFormProps) => {
+  courseId,
+  options
+}: CategoryFormProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const router = useRouter();
 
@@ -46,7 +48,7 @@ export const DescriptionForm = ({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      description: initialData.description || ""
+      categoryId: initialData.categoryId || ""
     }
   });
 
@@ -63,17 +65,21 @@ export const DescriptionForm = ({
     }
   }
 
+  const selectedOptions = options.find((option) => option.value === initialData.categoryId);
+  console.log("options", options)
+
+  console.log("selectedOptions", selectedOptions)
   return (
     <div className="mt-6 border bg-slate-100 rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
-        Course title
+        Course Category
         <Button onClick={toggleEdit} variant="ghost">
           {
             isEditing ?
               <>Cancel</> :
               <>
                 <Pencil className="h-4 w-4 mr-2" />
-                Edit title
+                Edit category
               </>
           }
         </Button>
@@ -82,7 +88,7 @@ export const DescriptionForm = ({
         {
           !isEditing ? (
             <p className="text-sm mt-2">
-              {!!initialData.description?.trim?.() ? initialData.description : "No description"}
+              {!!initialData.categoryId ? selectedOptions?.label : "No category"}
             </p>
           )
             :
@@ -93,13 +99,12 @@ export const DescriptionForm = ({
               >
                 <FormField
                   control={form.control}
-                  name="description"
+                  name="categoryId"
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Textarea
-                          disabled={isSubmitting}
-                          placeholder="eg: 'Advanced web development'"
+                        <Combobox
+                          options={options}
                           {...field}
                         />
                       </FormControl>
