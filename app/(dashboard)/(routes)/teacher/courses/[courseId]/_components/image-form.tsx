@@ -1,22 +1,27 @@
 "use client";
 
+import * as z from "zod";
 import axios from "axios";
-import Image from 'next/image'
 
 import { Button } from "@/components/ui/button";
 import { ImageIcon, Pencil, PlusCircle } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { Course } from "@prisma/client";
+import { Attachment, Course } from "@prisma/client";
 import { FileUpload } from "@/components/file-upload";
+import Image from "next/image";
 
 
 
 interface ImageFormProps {
-  initialData: Course
-  courseId: string
+  initialData: Course;
+  courseId: string;
 }
+
+const formSchema = z.object({
+  imageUrl: z.string().min(1),
+});
 
 export const ImageForm = ({
   initialData,
@@ -27,7 +32,7 @@ export const ImageForm = ({
 
   const toggleEdit = () => setIsEditing((current) => !current);
 
-  const onSubmit = async (values: any) => {
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       await axios.patch(`/api/courses/${courseId}`, values);
       toast.success("Course updated");
@@ -50,20 +55,20 @@ export const ImageForm = ({
           {!isEditing && !initialData.imageUrl &&
             <>
               <PlusCircle className="h-4 w-4 mr-2" />
-              {initialData.imageUrl ? 'Edit image' : 'Add image'}
+              Add image
             </>
           }
           {!isEditing && initialData.imageUrl &&
             <>
               <Pencil className="h-4 w-4 mr-2" />
-              {initialData.imageUrl ? 'Edit image' : 'Add image'}
+              Edit image
             </>
           }
         </Button>
       </div>
       <div>
         {
-          !isEditing ? (
+          !isEditing && (
             !initialData.imageUrl ? (
               <div className="flex items-center justify-center h-60 bg-slate-200 rounded-md">
                 <ImageIcon className="h-10 w-10 text-slate-500" />
@@ -79,20 +84,25 @@ export const ImageForm = ({
               </div>
             )
           )
-            :
-            (
-              <div>
-                <FileUpload
-                  endpoint="courseImage"
-                  onChange={(url) => {
-                    if (url) {
-                      onSubmit({ imageUrl: url })
-                    }
-                  }}
-                />
-              </div>
-            )
         }
+
+        {isEditing && (
+          <>
+            <FileUpload
+              endpoint="courseImage"
+              onChange={(url) => {
+                if (url) {
+                  onSubmit({ imageUrl: url })
+                }
+              }}
+            />
+            <div className="text-sx text-muted-foreground mt-4">
+              16:9 aspect ratio remmonded.
+            </div>
+          </>
+        )}
+
+
       </div>
     </div>
   )
