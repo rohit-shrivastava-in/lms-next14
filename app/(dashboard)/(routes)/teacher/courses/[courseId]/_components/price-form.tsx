@@ -22,8 +22,6 @@ import { useRouter } from "next/navigation";
 import { Course } from "@prisma/client";
 import { formatPrice } from "@/lib/format";
 
-
-
 interface PriceFormProps {
   initialData: Course,
   courseId: string

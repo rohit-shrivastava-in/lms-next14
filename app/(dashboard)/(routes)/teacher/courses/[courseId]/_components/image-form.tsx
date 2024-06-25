@@ -8,11 +8,9 @@ import { ImageIcon, Pencil, PlusCircle } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { Attachment, Course } from "@prisma/client";
+import { Course } from "@prisma/client";
 import { FileUpload } from "@/components/file-upload";
 import Image from "next/image";
-
-
 
 interface ImageFormProps {
   initialData: Course;
