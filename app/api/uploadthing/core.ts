@@ -27,7 +27,7 @@ export const ourFileRouter = {
     .onUploadComplete(() => {
 
     }),
-  chaptervideo: f({ video: { maxFileCount: 1, maxFileSize: "512GB" } })
+  chapterVideo: f({ video: { maxFileCount: 1, maxFileSize: "512GB" } })
     .middleware(() => handleAuth())
     .onUploadComplete(() => { })
 

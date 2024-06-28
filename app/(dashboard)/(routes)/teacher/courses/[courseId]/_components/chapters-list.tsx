@@ -32,6 +32,10 @@ export const ChaptersList = ({
     setIsMounted(true)
   }, []);
 
+  useEffect(() => {
+    setChapters(items);
+  }, [items])
+
   const onDragEnd = (result: DropResult) => {
     if (!result.destination) return;
     const items = Array.from(chapters);
