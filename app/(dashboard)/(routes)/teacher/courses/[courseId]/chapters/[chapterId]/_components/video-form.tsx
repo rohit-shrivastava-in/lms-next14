@@ -10,7 +10,7 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { Chapter, MuxData } from "@prisma/client";
 import { FileUpload } from "@/components/file-upload";
-import Image from "next/image";
+import VideoPlayer from '@mux/mux-player-react';
 
 interface ChapterVideoFormProps {
   initialData: Chapter & { muxData?: MuxData | null };
@@ -19,7 +19,7 @@ interface ChapterVideoFormProps {
 }
 
 const formSchema = z.object({
-  videoUrl: z.string().min(1),
+  videourl: z.string().min(1),
 });
 
 export const ChapterVideoForm = ({
@@ -75,7 +75,9 @@ export const ChapterVideoForm = ({
               </div>
             ) : (
               <div className="relative aspect-video mt-2">
-                Video uploaded
+                <VideoPlayer
+                  playbackId={initialData?.muxData?.playbackId || ""}
+                />
               </div>
             )
           )
@@ -87,7 +89,7 @@ export const ChapterVideoForm = ({
               endpoint="chapterVideo"
               onChange={(url) => {
                 if (url) {
-                  onSubmit({ videoUrl: url })
+                  onSubmit({ videourl: url })
                 }
               }}
             />
