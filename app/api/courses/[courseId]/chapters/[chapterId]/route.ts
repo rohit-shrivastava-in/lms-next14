@@ -52,7 +52,7 @@ export async function DELETE(
       });
 
       if (exitingMuxData?.assetsId) {
-        await video.assets.delete(exitingMuxData.assetsId);
+        // await video.assets.delete(exitingMuxData.assetsId);
         await db.muxData.delete({
           where: {
             id: exitingMuxData.id
@@ -123,7 +123,7 @@ export async function PATCH(
       });
 
       if (exitingMuxData?.assetsId) {
-        await video.assets.delete(exitingMuxData.assetsId);
+        // await video.assets.delete(exitingMuxData.assetsId);
         await db.muxData.delete({
           where: {
             id: exitingMuxData.id
