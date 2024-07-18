@@ -52,7 +52,11 @@ export async function DELETE(
       });
 
       if (exitingMuxData?.assetsId) {
-        // await video.assets.delete(exitingMuxData.assetsId);
+        // demo account can have assests only for 2 days
+        const assests = await video.assets.retrieve(exitingMuxData.assetsId)
+        if (assests) {
+          await video.assets.delete(exitingMuxData.assetsId);
+        }
         await db.muxData.delete({
           where: {
             id: exitingMuxData.id
@@ -105,7 +109,7 @@ export async function PATCH(
       return new NextResponse("Unauthorised", { status: 401 });
     }
 
-    const course = await db.chapter.update({
+    const chapter = await db.chapter.update({
       where: {
         id: chapterId,
         courseId,
@@ -123,7 +127,11 @@ export async function PATCH(
       });
 
       if (exitingMuxData?.assetsId) {
-        // await video.assets.delete(exitingMuxData.assetsId);
+        // demo account can have assests only for 2 days
+        const assests = await video.assets.retrieve(exitingMuxData.assetsId)
+        if (assests) {
+          await video.assets.delete(exitingMuxData.assetsId);
+        }
         await db.muxData.delete({
           where: {
             id: exitingMuxData.id
@@ -147,7 +155,7 @@ export async function PATCH(
     }
 
 
-    return NextResponse.json(course);
+    return NextResponse.json(chapter);
   } catch (error) {
     console.error("[COURSE_CHAPTER_ID", error);
     return new NextResponse("Internal Error", { status: 500 });
