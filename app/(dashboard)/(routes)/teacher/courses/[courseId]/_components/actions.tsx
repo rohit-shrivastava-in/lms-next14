@@ -7,7 +7,7 @@ import { Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { useConfettiStore } from "@/hooks/use-conffeti-store"
+import { useConfettiStore } from "@/hooks/use-confetti-store"
 
 interface CourseActionsProps {
   disabled: boolean;
