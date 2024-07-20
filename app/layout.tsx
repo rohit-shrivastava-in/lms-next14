@@ -3,10 +3,11 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { ToastProvider } from "@/components/providers/toaster-provider";
-import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
-import { extractRouterConfig } from "uploadthing/server";
+// import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
+// import { extractRouterConfig } from "uploadthing/server";
+// import { ourFileRouter } from "@/app/api/uploadthing/core";
 
-import { ourFileRouter } from "@/app/api/uploadthing/core";
+import { ConfettiProvider } from "@/components/providers/confettie-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,9 +25,10 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className={inter.className}>
-          <NextSSRPlugin
+          {/* <NextSSRPlugin
             routerConfig={extractRouterConfig(ourFileRouter)}
-          />
+          /> */}
+          <ConfettiProvider />
           <ToastProvider />
           {children}
         </body>

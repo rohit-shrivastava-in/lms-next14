@@ -53,10 +53,7 @@ export async function DELETE(
 
       if (exitingMuxData?.assetsId) {
         // demo account can have assests only for 2 days
-        const assests = await video.assets.retrieve(exitingMuxData.assetsId)
-        if (assests) {
-          await video.assets.delete(exitingMuxData.assetsId);
-        }
+        // await video.assets.delete(exitingMuxData.assetsId);
         await db.muxData.delete({
           where: {
             id: exitingMuxData.id
@@ -128,10 +125,7 @@ export async function PATCH(
 
       if (exitingMuxData?.assetsId) {
         // demo account can have assests only for 2 days
-        const assests = await video.assets.retrieve(exitingMuxData.assetsId)
-        if (assests) {
-          await video.assets.delete(exitingMuxData.assetsId);
-        }
+        // await video.assets.delete(exitingMuxData.assetsId);
         await db.muxData.delete({
           where: {
             id: exitingMuxData.id
