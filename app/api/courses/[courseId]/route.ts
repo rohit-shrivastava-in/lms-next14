@@ -38,15 +38,12 @@ export async function DELETE(
       return new NextResponse("Not found", { status: 404 });
     }
 
-    for (let chapter of course.chapters) {
-      if (chapter.muxData?.assetsId) {
-        // assest will be available only for 2 days in demo account
-        const assets = await video.assets.retrieve(chapter.muxData.assetsId);
-        if (assets) {
-          await video.assets.delete(chapter.muxData.assetsId);
-        }
-      }
-    }
+    // for (let chapter of course.chapters) {
+    //   if (chapter.muxData?.assetsId) {
+    //     // assest will be available only for 2 days in demo account, will throw error if assest is auto deleted
+    //     // await video.assets.delete(chapter.muxData.assetsId);
+    //   }
+    // }
 
 
     const deletedCourse = await db.course.delete({

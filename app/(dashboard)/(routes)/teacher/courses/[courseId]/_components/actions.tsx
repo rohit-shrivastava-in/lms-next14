@@ -4,7 +4,7 @@ import { Confirmmodel } from "@/components/modals/confirm-model";
 import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { Trash } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useConfettiStore } from "@/hooks/use-confetti-store"
@@ -48,7 +48,7 @@ export const CourseActions = ({
       setIsLoading(true);
       await axios.delete(`/api/courses/${courseId}`);
       toast.success("Course deleted");
-      router.refresh();
+      router.push("/teacher/courses")
     } catch {
       toast.error("Something went wrong");
     } finally {
