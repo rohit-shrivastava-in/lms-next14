@@ -5,7 +5,8 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch", "fullTextIndex"]
 }
 
 datasource db {
@@ -35,6 +36,7 @@ model Course {
   purchases purchase[]
 
   @@index([categoryId])
+  @@fulltext([title])
 }
 
 model Category {
@@ -71,7 +73,7 @@ model Chapter {
   course   Course? @relation(fields: [courseId], references: [id], onDelete: Cascade)
   courseId String
 
-  userProgres UserProgress[]
+  userProgress UserProgress[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -113,6 +115,7 @@ model purchase {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  @@unique([userId, courseId])
   @@index([courseId])
 }
 

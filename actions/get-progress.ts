@@ -1,5 +1,4 @@
 import { db } from "@/lib/db"
-import { NextResponse } from "next/server";
 
 export const GetProgress = async (
   userId: string,
