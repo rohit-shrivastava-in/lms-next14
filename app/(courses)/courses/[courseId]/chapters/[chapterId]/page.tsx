@@ -3,6 +3,10 @@ import { Banner } from "@/components/banner";
 import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import { VideoPlayer } from "./_components/video-player";
+import CourseEnrollmentButton from "./_components/course-enrollment-button";
+import { Separator } from "@/components/ui/separator";
+import { Preview } from "@/components/preview";
+import { File } from "lucide-react";
 
 const ChapterIdPage = async ({
   params
@@ -26,6 +30,10 @@ const ChapterIdPage = async ({
     chapterId: params.chapterId,
     courseId: params.courseId
   });
+
+  if (!course || !chapter) {
+    return redirect("/")
+  }
 
   const isLocked = !chapter?.isFree && !purchase;
   const completeOnEnd = !!purchase && !userProgress?.isCompleted
@@ -55,7 +63,39 @@ const ChapterIdPage = async ({
             <h2 className="text-2xl font-semibold mb-2">
               {chapter?.title}
             </h2>
+            {purchase ? (
+              <div>TODO: Add course progess button</div>
+            ) : (
+              <CourseEnrollmentButton
+                courseId={params.courseId}
+                price={course.price!}
+              />
+            )}
           </div>
+          <Separator />
+          <div>
+            <Preview value={chapter.description!} />
+          </div>
+          {!!attachments.length && (
+            <>
+              <Separator />
+              <div className="p-4 space-y-2">
+                {attachments.map((attachment) => (
+                  <a
+                    href={attachment.url}
+                    key={attachment.id}
+                    target="_blank"
+                    className="flex items-center p-3 w-full bg-sky-200 border text-sky-700  rounded-md hover:underline"
+                  >
+                    <File />
+                    <p className="line-clamp-1">
+                      {attachment.name}
+                    </p>
+                  </a>
+                ))}
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>

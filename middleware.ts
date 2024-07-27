@@ -2,7 +2,11 @@ import { NextResponse } from "next/server";
 import { authMiddleware, redirectToSignIn } from "@clerk/nextjs/server";
 
 export default authMiddleware({
-    publicRoutes: ['/', '/search', '/api/uploadthing'],
+    publicRoutes: [
+        '/',
+        '/api/uploadthing',
+        '/api/webhook'
+    ],
     afterAuth(auth, req, evt) {
         // Handle users who aren't authenticated
         if (!auth.userId && !auth.isPublicRoute) {

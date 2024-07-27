@@ -121,7 +121,7 @@ model purchase {
 
 model StripeCustomer {
   id               String @id @default(uuid()) @map("_id")
-  userId           String
+  userId           String @unique
   stripeCustomerId String @unique
 
   createdAt DateTime @default(now())
