@@ -33,7 +33,7 @@ model Course {
 
   createAt  DateTime   @default(now())
   updatedAt DateTime   @updatedAt
-  purchases purchase[]
+  purchases Purchase[]
 
   @@index([categoryId])
   @@fulltext([title])
@@ -105,11 +105,11 @@ model UserProgress {
   @@index([chapterId])
 }
 
-model purchase {
+model Purchase {
   id     String @id @default(uuid()) @map("_id")
   userId String
 
-  course   Course? @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
   courseId String
 
   createdAt DateTime @default(now())
